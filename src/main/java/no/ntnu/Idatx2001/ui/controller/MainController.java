@@ -4,20 +4,31 @@ package no.ntnu.Idatx2001.ui.controller;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.stage.FileChooser;
 import no.ntnu.Idatx2001.model.PostalNumber;
+import no.ntnu.Idatx2001.model.PostalNumberRegister;
 import no.ntnu.Idatx2001.ui.view.MainWindow;
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MainController{
 
+    private final Logger logger;
+
+    public MainController(){
+        this.logger = Logger.getLogger(getClass().toString());
+    }
     /**
-     *
+     *  Exits the application and displays a confirmation dialog.
      */
     public void doExitApp(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -36,11 +47,42 @@ public class MainController{
         }
     }
 
+    public boolean doShowImportCSVDialog(PostalNumberRegister postalNumberRegister, MainWindow parent) {
+        boolean importCheck = false;
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open CSV File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("CSV files", "*.csv"));
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))){
+
+            String row = "";
+            while((row = reader.readLine()) != null){
+                String[] data = row.split("\t");
+                postalNumberRegister.setPostalNumbers(new PostalNumber(data[0],data[1],data[2],data[3],data[4]));
+                parent.updateObservableList();
+                importCheck = true;
+            }
+        }catch(IOException e){
+            this.logger.log(Level.WARNING, e.getMessage());
+        }
+        return importCheck;
+    }
+
+    public void updateStatusBar(){
+
+    }
+
     /**
+     * Defines what to search for, which is postalCode, postalPlace
+     * and municipality.
      *
-     * @param postalNumber
-     * @param search
-     * @return
+     * @param postalNumber the postalNumber to search for
+     * @param search       the search text
+     * @return             the search results, based on postalCode, postalPlace
+     *                     and municipality.
      */
     private boolean searchFindsOrder(PostalNumber postalNumber, String search){
         return (postalNumber.getPostalCode().toLowerCase().contains(search.toLowerCase())) ||
@@ -49,10 +91,11 @@ public class MainController{
     }
 
     /**
+     * Filters a observable list to be shown to the user, based on the users input.
      *
-     * @param list
-     * @param search
-     * @return
+     * @param list   the list to filter
+     * @param search the search text
+     * @return       the filtered list as a ObservableList
      */
     public ObservableList<PostalNumber> filterList(List<PostalNumber> list, String search){
         List<PostalNumber> filtered = new ArrayList<>();
@@ -67,7 +110,7 @@ public class MainController{
     //------------------------------------
 
     /**
-     *
+     * A about dialog to show creator, app, version and date of creation.
      */
     public void doShowAbout(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

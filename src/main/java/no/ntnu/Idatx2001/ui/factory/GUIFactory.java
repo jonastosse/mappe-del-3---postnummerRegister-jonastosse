@@ -1,5 +1,6 @@
 package no.ntnu.Idatx2001.ui.factory;
 
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -31,7 +32,7 @@ public class GUIFactory {
     public Node createMenus(MainController controller, TableView tableView, PostalNumberRegister postalNumberRegister, MainWindow mainWindow){
         Menu menuFile = new Menu("File");
         MenuItem openFile = new MenuItem("Import File");
-        //TODO
+        openFile.setOnAction(ActionEvent -> controller.doShowImportCSVDialog(postalNumberRegister, mainWindow));
 
         MenuItem exportFile = new MenuItem("Export File");
         //TODO
@@ -130,10 +131,15 @@ public class GUIFactory {
         return scrollPane;
     }
 
+    /**
+     *
+     * @return
+     */
     public Node createStatusBar(){
         HBox statusbar = new HBox();
         statusbar.setStyle("-fx-background-color: '#1';");
-        if()
+        //if()
+        return statusbar;
     }
 
 }

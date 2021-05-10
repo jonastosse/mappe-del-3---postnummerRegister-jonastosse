@@ -34,10 +34,10 @@ public class PostalNumberRegister {
 
     /**
      *
-     * @param postalNumbers
+     * @param postalNumber
      */
-    public void setPostalNumbers(ArrayList<PostalNumber> postalNumbers) {
-        this.postalNumbers = postalNumbers;
+    public void setPostalNumbers(PostalNumber postalNumber) {
+        this.postalNumbers.add(postalNumber);
     }
 
     /**

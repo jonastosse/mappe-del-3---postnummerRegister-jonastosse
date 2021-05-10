@@ -1,5 +1,6 @@
 module Mappe.PostnummerRegister.jonastosse{
     requires javafx.controls;
+    requires java.logging;
     exports no.ntnu.Idatx2001.ui.view;
     exports no.ntnu.Idatx2001.model;
     exports no.ntnu.Idatx2001.ui.controller;
