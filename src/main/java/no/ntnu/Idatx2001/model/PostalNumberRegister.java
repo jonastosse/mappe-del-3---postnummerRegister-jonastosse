@@ -7,7 +7,8 @@ public class PostalNumberRegister {
     private ArrayList<PostalNumber> postalNumbers;
 
     /**
-     *
+     * The postalNumberRegister represent a collection of Postal.
+     * This class can hold any object of type Postal or any subclass, like postal.
      */
     public PostalNumberRegister(){
         this.postalNumbers = new ArrayList<>();
@@ -25,24 +26,27 @@ public class PostalNumberRegister {
     }
 
     /**
+     * Returns the list of PostalNumbers.
      *
-     * @return
+     * @return the list of PostalNumbers
      */
     public List<PostalNumber> getPostalNumbers() {
         return postalNumbers;
     }
 
     /**
+     * Add a postalNumber to the register.
      *
-     * @param postalNumber
+     * @param postalNumber the postalNumber to be added
      */
     public void setPostalNumbers(PostalNumber postalNumber) {
         this.postalNumbers.add(postalNumber);
     }
 
     /**
+     * Removes a postalNumber from the register.
      *
-     * @param postalNumber
+     * @param postalNumber the postalNumber to be removed
      */
     public void removePostalNumber(PostalNumber postalNumber){
         this.postalNumbers.remove(postalNumber);

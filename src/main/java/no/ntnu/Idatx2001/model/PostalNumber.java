@@ -1,7 +1,8 @@
 package no.ntnu.Idatx2001.model;
 
 /**
- *
+ * PostalNumber is a class containing all the information about a postalPlace or a postalNumber.
+ * This class is a extension of Postal, and it Implements Municipality.
  */
 public class PostalNumber extends Postal implements Municipality{
         // Two first numbers for county code and two last for municipality code.
@@ -11,6 +12,15 @@ public class PostalNumber extends Postal implements Municipality{
         // Which category the municipality is in.
     private String category;
 
+    /**
+     * Creates an instance of PostalNumber.
+     *
+     * @param postalCode        the postalCode of the postalNumber
+     * @param postalPlace       the postalPlace of the postalNumber
+     * @param municipalityCode  the municipalityCode of the postalNumber
+     * @param municipality      the municipality of the postalNumber
+     * @param category          the category of the postalNumber
+     */
     public PostalNumber(String postalCode, String postalPlace, String municipalityCode, String municipality, String category){
         super(postalCode, postalPlace);
 
@@ -25,32 +35,36 @@ public class PostalNumber extends Postal implements Municipality{
 
 
     /**
+     * Sets the municipalityCode.
      *
-     * @param municipalityCode
+     * @param municipalityCode the municipalityCode to be set
      */
     public void setMunicipalityCode(String municipalityCode) {
         this.municipalityCode = municipalityCode;
     }
 
     /**
+     * Returns the municipalityCode.
      *
-     * @return
+     * @return the municipalityCode
      */
     public String getMunicipalityCode() {
         return municipalityCode;
     }
 
     /**
+     * Sets the category.
      *
-     * @param category
+     * @param category the category to be set
      */
     public void setCategory(String category) {
         this.category = category;
     }
 
     /**
+     * Returns the category.
      *
-     * @return
+     * @return the category
      */
     public String getCategory() {
         return category;
@@ -82,8 +96,9 @@ public class PostalNumber extends Postal implements Municipality{
     }
 
     /**
+     * Returns the municipality.
      *
-     * @return
+     * @return the municipality
      */
     public String getMunicipality() {
         return municipality;

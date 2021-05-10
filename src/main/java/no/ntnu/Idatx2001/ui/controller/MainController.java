@@ -20,10 +20,16 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The main controller for the application. It handles the actions to be performed in the GUI.
+ */
 public class MainController{
 
     private final Logger logger;
 
+    /**
+     * An instance of MainController.
+     */
     public MainController(){
         this.logger = Logger.getLogger(getClass().toString());
     }
@@ -47,6 +53,15 @@ public class MainController{
         }
     }
 
+    /**
+     * Displays a dialog to choose a .csv file to be read. Then it reads the document
+     * and add them to the postalNumberRegister. Returns <code>True</code> if the
+     * process is successful, and <code>False</code> if it fails.
+     *
+     * @param postalNumberRegister
+     * @param parent
+     * @return
+     */
     public boolean doShowImportCSVDialog(PostalNumberRegister postalNumberRegister, MainWindow parent) {
         boolean importCheck = false;
 
@@ -71,6 +86,10 @@ public class MainController{
         return importCheck;
     }
 
+    /**
+     * The update status bar is called to update the statusBar
+     * when CSV is imported
+     */
     public void updateStatusBar(){
 
     }

@@ -14,7 +14,7 @@ import no.ntnu.Idatx2001.ui.controller.MainController;
 import no.ntnu.Idatx2001.ui.factory.GUIFactory;
 
 /**
- *
+ * The mainWindow of the application.
  */
 public class MainWindow extends Application {
     private MainController mainController;
@@ -22,9 +22,7 @@ public class MainWindow extends Application {
     private ObservableList<PostalNumber> postalObservableList;
     private TableView<PostalNumber> tableView;
 
-    /**
-     *
-     */
+    @Override
     public void init(){
         this.mainController = new MainController();
         this.pNRegister = new PostalNumberRegister();
@@ -33,8 +31,12 @@ public class MainWindow extends Application {
     }
 
     /**
+     * The start-method is called by the JavaFX platform upon starting the
+     * JavaFX-platform. The method is abstract and must be overridden by any
+     * subclass of Application. The main window is setup in this method,
+     * including menus, toolboxes etc.
      *
-     * @param primaryStage
+     * @param primaryStage The main stage making up the main window.
      */
     @Override
     public void start(Stage primaryStage) {
@@ -44,7 +46,7 @@ public class MainWindow extends Application {
         VBox topContainer = new VBox();
 
         topContainer.getChildren().add(guiFactory.createMenus(this.mainController, this.tableView, this.pNRegister, this));
-        topContainer.getChildren().add(guiFactory.createToolBar(this.mainController, this.tableView, this.pNRegister));
+        topContainer.getChildren().add(guiFactory.createToolBar(this.mainController, this.tableView, this.pNRegister, this));
 
         root.setTop(topContainer);
         root.setCenter(guiFactory.createCentreContent(this.mainController, this.tableView, this));
@@ -59,8 +61,9 @@ public class MainWindow extends Application {
     }
 
     /**
+     * Returns an ObservableList holding the postalNumbers to display.
      *
-     * @return
+     * @returnan ObservableList holding the postalNumbers to display
      */
     public ObservableList<PostalNumber> getPostalObservableList() {
         postalObservableList
@@ -69,7 +72,7 @@ public class MainWindow extends Application {
     }
 
     /**
-     *
+     * Updates the ObservableArray wrapper with the content of the postalNumberRegister.
      */
     public void updateObservableList(){
         this.postalObservableList.setAll(this.pNRegister.getPostalNumbers());

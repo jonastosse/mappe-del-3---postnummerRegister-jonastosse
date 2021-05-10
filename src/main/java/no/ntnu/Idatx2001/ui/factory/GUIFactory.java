@@ -12,22 +12,23 @@ import no.ntnu.Idatx2001.ui.controller.MainController;
 import no.ntnu.Idatx2001.ui.view.MainWindow;
 
 /**
- *
+ * The GuiFactory has the responsibility to create Nodes for the MainWindow.
  */
 public class GUIFactory {
 
     /**
-     *
+     * Creates an instance of the GuiFactory.
      */
     public GUIFactory(){}
 
     /**
+     * Creates a menus of type Node, to be sent to MainWindow.
      *
-     * @param controller
-     * @param tableView
-     * @param postalNumberRegister
-     * @param mainWindow
-     * @return
+     * @param controller            a link to the MainController
+     * @param tableView             the TableView to do operations in
+     * @param postalNumberRegister  the register to add, edit and remove
+     * @param mainWindow            a link to the MainWindow
+     * @return                      the toolbar as a Node
      */
     public Node createMenus(MainController controller, TableView tableView, PostalNumberRegister postalNumberRegister, MainWindow mainWindow){
         Menu menuFile = new Menu("File");
@@ -66,13 +67,15 @@ public class GUIFactory {
     }
 
     /**
+     * Creates a toolbar of type Node, to be sent to MainWindow.
      *
-     * @param controller
-     * @param tableView
-     * @param postalNumberRegister
-     * @return
+     * @param controller            a link to the MainController
+     * @param tableView             the TableView to do operations in
+     * @param postalNumberRegister  the register to add, edit and remove
+     * @param mainWindow            a link to the MainWindow
+     * @return                      the toolbar as a Node
      */
-    public Node createToolBar(MainController controller, TableView tableView, PostalNumberRegister postalNumberRegister){
+    public Node createToolBar(MainController controller, TableView tableView, PostalNumberRegister postalNumberRegister, MainWindow mainWindow){
 
         TextField searchText = new TextField();
         searchText.setPromptText("Search for postal code or postal place");
@@ -99,11 +102,12 @@ public class GUIFactory {
     }
 
     /**
+     * Creates centreContent of type Node, to be sent to MainWindow.
      *
-     * @param controller
-     * @param tableView
-     * @param mainWindow
-     * @return
+     * @param controller    a link to the MainController
+     * @param tableView     the TableView to do operations in
+     * @param mainWindow    a link to the MainWindow
+     * @return              the scrollPane as a Node
      */
     public Node createCentreContent(MainController controller, TableView tableView, MainWindow mainWindow){
         TableColumn<PostalNumber, String> postalCodeColumn = new TableColumn<>("Postal code");
@@ -132,8 +136,9 @@ public class GUIFactory {
     }
 
     /**
+     * Creates a statusBar of type Node, to be sent to the MainWindow.
      *
-     * @return
+     * @return the statusBar as a Node
      */
     public Node createStatusBar(){
         HBox statusbar = new HBox();
