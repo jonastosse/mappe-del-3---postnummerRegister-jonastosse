@@ -1,9 +1,10 @@
 package no.ntnu.Idatx2001.ui.factory;
 
-import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import no.ntnu.Idatx2001.model.PostalNumber;
@@ -47,14 +48,10 @@ public class GUIFactory {
 
         Menu menuEdit = new Menu("Edit");
 
-        MenuItem addPN = new MenuItem("Add new Postal Address");
-        //TODO
-        MenuItem editPN = new MenuItem("Edit Postal Address");
-        //TODO
-        MenuItem removePN = new MenuItem("Remove Postal Address");
-        //TODO
+        MenuItem seePN = new MenuItem("See selected Item");
 
-        menuEdit.getItems().addAll(addPN, editPN, removePN);
+
+        menuEdit.getItems().addAll(seePN);
 
         Menu menuHelp = new Menu("Help");
         MenuItem about = new MenuItem("About");
@@ -82,22 +79,22 @@ public class GUIFactory {
         searchText.textProperty().addListener((observable, oldValue, newValue) -> tableView.setItems
                 (controller.filterList(postalNumberRegister.getPostalNumbers(),newValue)));
 
-        Button addButton = new Button();
-        addButton.setText("ADD");
+        Button infoButton = new Button();
+        //infoButton.setMinWidth();
+        ImageView infoImgView = new ImageView(new Image(getClass().getResource("/pictures/info.png").toExternalForm()));
+        infoButton.setGraphic(infoImgView);
+        infoImgView.setFitHeight(25);
+        infoImgView.setFitWidth(25);
 
-        Button editButton = new Button();
-        editButton.setText("EDIT");
-
-        Button deleteButton = new Button();
-        deleteButton.setText("DELETE");
+        ImageView searchImageView = new ImageView();
+        Image searchImage = new Image(getClass().getResource("/pictures/search.png").toExternalForm());
+        searchImageView.setImage(searchImage);
+        searchImageView.setFitWidth(25);
+        searchImageView.setFitHeight(25);
 
         BorderPane toolBar = new BorderPane();
-        ToolBar vBox = new ToolBar();
-
-        vBox.getItems().addAll(addButton, editButton, deleteButton);
-
-        toolBar.setLeft(vBox);
-        toolBar.setRight(searchText);
+        toolBar.setLeft(infoButton);
+        toolBar.setRight(new HBox(searchText,searchImageView));
         return toolBar;
     }
 
@@ -111,20 +108,28 @@ public class GUIFactory {
      */
     public Node createCentreContent(MainController controller, TableView tableView, MainWindow mainWindow){
         TableColumn<PostalNumber, String> postalCodeColumn = new TableColumn<>("Postal code");
-        postalCodeColumn.setMinWidth(200);
+        postalCodeColumn.setMinWidth(100);
         postalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
 
         TableColumn<PostalNumber, String> postalPlaceColumn = new TableColumn<>("Postal place");
-        postalPlaceColumn.setMinWidth(300);
+        postalPlaceColumn.setMinWidth(200);
         postalPlaceColumn.setCellValueFactory(new PropertyValueFactory<>("postalPlace"));
 
         TableColumn<PostalNumber, String> municipalityColumn = new TableColumn<>("Municipality");
-        municipalityColumn.setMinWidth(300);
+        municipalityColumn.setMinWidth(200);
         municipalityColumn.setCellValueFactory(new PropertyValueFactory<>("municipality"));
+
+        TableColumn<PostalNumber, String> municipalityCodeColumn = new TableColumn<>("Municipality code");
+        municipalityCodeColumn.setMinWidth(200);
+        municipalityCodeColumn.setCellValueFactory(new PropertyValueFactory<>("municipalityCode"));
+
+        TableColumn<PostalNumber, String> categoryColumn = new TableColumn<>("Municipality");
+        categoryColumn.setMinWidth(200);
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
 
 
         tableView.setItems(mainWindow.getPostalObservableList());
-        tableView.getColumns().addAll(postalCodeColumn, postalPlaceColumn, municipalityColumn);
+        tableView.getColumns().addAll(postalCodeColumn, postalPlaceColumn, municipalityColumn, municipalityCodeColumn, categoryColumn);
 
 
         ScrollPane scrollPane = new ScrollPane();
