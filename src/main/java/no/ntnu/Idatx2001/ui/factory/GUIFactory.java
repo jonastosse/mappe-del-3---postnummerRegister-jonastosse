@@ -126,11 +126,11 @@ public class GUIFactory {
         municipalityColumn.setCellValueFactory(new PropertyValueFactory<>("municipality"));
 
         TableColumn<PostalNumber, String> municipalityCodeColumn = new TableColumn<>("Municipality code");
-        municipalityCodeColumn.setMinWidth(200);
+        municipalityCodeColumn.setMinWidth(100);
         municipalityCodeColumn.setCellValueFactory(new PropertyValueFactory<>("municipalityCode"));
 
         TableColumn<PostalNumber, String> categoryColumn = new TableColumn<>("Category");
-        categoryColumn.setMinWidth(200);
+        categoryColumn.setMinWidth(100);
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
 
 

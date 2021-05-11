@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -53,12 +52,14 @@ public class MainWindow extends Application {
         root.setCenter(guiFactory.createCentreContent(this.mainController, this.tableView, this));
         //root.setBottom();
 
-        Scene scene = new Scene(root, 1000, 700);
-        primaryStage.setMinWidth(1000);
+        Scene scene = new Scene(root, 700, 700);
+        primaryStage.setMinWidth(700);
         primaryStage.setMinHeight(700);
-        primaryStage.setTitle("PostalRegister");
+        primaryStage.setTitle("PostNumber APP");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(windowEvent -> mainController.doExitApp());
     }
 
     /**

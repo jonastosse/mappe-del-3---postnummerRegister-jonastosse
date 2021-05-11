@@ -100,6 +100,10 @@ public class MainController {
     //  DIALOGS
     //------------------------------------
 
+    public void showErrorMessage(){
+
+    }
+
     /**
      * Displays a dialog to choose a .csv file to be read. Then it reads the document
      * and add them to the postalNumberRegister. Returns <code>True</code> if the
@@ -129,6 +133,7 @@ public class MainController {
             }
         } catch (IOException e) {
             this.logger.log(Level.WARNING, e.getMessage());
+
         }
         return importCheck;
     }
