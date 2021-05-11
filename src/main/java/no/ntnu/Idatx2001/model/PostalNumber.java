@@ -8,7 +8,7 @@ public class PostalNumber extends Postal implements Comment{
         // Two first numbers for county code and two last for municipality code.
     private String municipalityCode;
         // Eks. Hustadvika.
-    private String comment;
+    private String comment = "";
         // Which category the municipality is in.
     private String category;
 
@@ -20,10 +20,9 @@ public class PostalNumber extends Postal implements Comment{
      * @param municipalityCode  the municipalityCode of the postalNumber
      * @param municipality      the municipality of the postalNumber
      * @param category          the category of the postalNumber
-     * @param comment           the comment for the postalNumber
      */
     public PostalNumber(String postalCode, String postalPlace, String municipality, String municipalityCode,
-                        String category, String comment){
+                        String category){
 
         super(postalCode, postalPlace, municipality);
 
@@ -78,36 +77,6 @@ public class PostalNumber extends Postal implements Comment{
         return category;
     }
 
-    @Override
-    public String getPostalPlace() {
-        return super.getPostalPlace();
-    }
-
-    @Override
-    public String getPostalCode() {
-        return super.getPostalCode();
-    }
-
-    @Override
-    public String getMunicipality() {
-        return super.getMunicipality();
-    }
-
-    @Override
-    public void setPostalCode(String postalCode) {
-        super.setPostalCode(postalCode);
-    }
-
-    @Override
-    public void setPostalPlace(String postalPlace) {
-        super.setPostalPlace(postalPlace);
-    }
-
-    @Override
-    public void setMunicipality(String municipality) {
-        super.setMunicipality(municipality);
-    }
-
     /**
      * Returns the comment.
      *
@@ -116,7 +85,7 @@ public class PostalNumber extends Postal implements Comment{
     public String getComment() {
         return comment;
     }
-
+    @Override
     public void setComment(String comment) {
         this.comment = comment;
     }

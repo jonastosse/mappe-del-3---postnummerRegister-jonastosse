@@ -56,38 +56,7 @@ public class MainController {
         }
     }
 
-    /**
-     * Displays a dialog to choose a .csv file to be read. Then it reads the document
-     * and add them to the postalNumberRegister. Returns <code>True</code> if the
-     * process is successful, and <code>False</code> if it fails.
-     *
-     * @param postalNumberRegister
-     * @param parent
-     * @return
-     */
-    public boolean doShowImportCSVDialog(PostalNumberRegister postalNumberRegister, MainWindow parent) {
-        boolean importCheck = false;
 
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open CSV File");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("CSV files", "*.csv"));
-        File selectedFile = fileChooser.showOpenDialog(null);
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
-
-            String row = "";
-            while ((row = reader.readLine()) != null) {
-                String[] data = row.split("\t");
-                postalNumberRegister.setPostalNumbers(new PostalNumber(data[0], data[1], data[2], data[3], data[4], ""));
-                parent.updateObservableList();
-                importCheck = true;
-            }
-        } catch (IOException e) {
-            this.logger.log(Level.WARNING, e.getMessage());
-        }
-        return importCheck;
-    }
 
     /**
      * The update status bar is called to update the statusBar
@@ -130,6 +99,39 @@ public class MainController {
     //------------------------------------
     //  DIALOGS
     //------------------------------------
+
+    /**
+     * Displays a dialog to choose a .csv file to be read. Then it reads the document
+     * and add them to the postalNumberRegister. Returns <code>True</code> if the
+     * process is successful, and <code>False</code> if it fails.
+     *
+     * @param postalNumberRegister
+     * @param parent
+     * @return
+     */
+    public boolean doShowImportCSVDialog(PostalNumberRegister postalNumberRegister, MainWindow parent) {
+        boolean importCheck = false;
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open CSV File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("CSV files", "*.csv"));
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
+
+            String row = "";
+            while ((row = reader.readLine()) != null) {
+                String[] data = row.split("\t");
+                postalNumberRegister.setPostalNumbers(new PostalNumber(data[0], data[1], data[3], data[2], data[4]));
+                parent.updateObservableList();
+                importCheck = true;
+            }
+        } catch (IOException e) {
+            this.logger.log(Level.WARNING, e.getMessage());
+        }
+        return importCheck;
+    }
 
     /**
      * A about dialog to show creator, app, version and date of creation.
@@ -178,42 +180,39 @@ public class MainController {
             grid.setPadding(new Insets(20, 150, 10, 10));
 
             TextField pCode = new TextField();
-            pCode.setPromptText("Postal Code:");
             pCode.setEditable(false);
             pCode.setText(postalNumber.getPostalCode());
             pCode.setMaxWidth(50);
 
             TextField pPlace = new TextField();
-            pPlace.setPromptText("Postal Name:");
             pPlace.setEditable(false);
             pPlace.setText(postalNumber.getPostalPlace());
             pPlace.setMaxWidth(150);
 
-            TextField muni = new TextField();
-            muni.setPromptText("Municipality:");
-            muni.setEditable(false);
-            muni.setText(postalNumber.getMunicipality());
-            muni.setMaxWidth(150);
+            TextField municipality = new TextField();
+            municipality.setEditable(false);
+            municipality.setText(postalNumber.getMunicipality());
+            municipality.setMaxWidth(150);
 
             TextField mCode = new TextField();
-            mCode.setPromptText("Municipality Code:");
             mCode.setEditable(false);
             mCode.setText(postalNumber.getMunicipalityCode());
             mCode.setMaxWidth(50);
 
             TextField category = new TextField();
-            category.setPromptText("Category:");
             category.setEditable(false);
             category.setText(postalNumber.getCategory());
             category.setMaxWidth(25);
 
             TextArea additionalComment = new TextArea();
-            additionalComment.setPromptText("Comment:");
+            additionalComment.setPromptText("Comment");
             additionalComment.setEditable(true);
-
             additionalComment.setText(postalNumber.getComment());
-            postalNumber.setComment(additionalComment.getText());
             additionalComment.setWrapText(true);
+
+
+            postalNumber.setComment(additionalComment.getText());
+
 
             grid.add(new Label("Postal Code:"), 0, 0);
             grid.add(pCode, 1, 0);
@@ -222,7 +221,7 @@ public class MainController {
             grid.add(pPlace, 3, 0);
 
             grid.add(new Label("Municipality:"), 0, 1);
-            grid.add(muni, 1, 1);
+            grid.add(municipality, 1, 1);
 
             grid.add(new Label("Municipality Code:"), 2, 1);
             grid.add(mCode, 3, 1);
@@ -234,11 +233,7 @@ public class MainController {
             grid.add(additionalComment, 1 , 3);
             additionalComment.setMaxSize(300, 200);
 
-
-
             postalNumberDialog.getDialogPane().setContent(grid);
             postalNumberDialog.showAndWait();
-
-
     }
 }
