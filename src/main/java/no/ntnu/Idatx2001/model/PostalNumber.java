@@ -4,11 +4,11 @@ package no.ntnu.Idatx2001.model;
  * PostalNumber is a class containing all the information about a postalPlace or a postalNumber.
  * This class is a extension of Postal, and it Implements Municipality.
  */
-public class PostalNumber extends Postal implements Municipality{
+public class PostalNumber extends Postal implements Comment{
         // Two first numbers for county code and two last for municipality code.
     private String municipalityCode;
         // Eks. Hustadvika.
-    private String municipality;
+    private String comment;
         // Which category the municipality is in.
     private String category;
 
@@ -20,17 +20,25 @@ public class PostalNumber extends Postal implements Municipality{
      * @param municipalityCode  the municipalityCode of the postalNumber
      * @param municipality      the municipality of the postalNumber
      * @param category          the category of the postalNumber
+     * @param comment           the comment for the postalNumber
      */
-    public PostalNumber(String postalCode, String postalPlace, String municipalityCode, String municipality, String category){
-        super(postalCode, postalPlace);
+    public PostalNumber(String postalCode, String postalPlace, String municipality, String municipalityCode,
+                        String category, String comment){
 
-        if (municipalityCode == null || municipalityCode.isBlank() || municipality == null || municipality.isBlank() || category == null || category.isBlank()){
-            throw new IllegalArgumentException("municipalityCode, municipality and category cannot be null");
+        super(postalCode, postalPlace, municipality);
+
+            //Check if municipalityCode is empty or null. If "true" -> throw exception.
+        if (municipalityCode == null || municipalityCode.isBlank()){
+            throw new IllegalArgumentException("municipalityCode cannot be null");
+        }
+            //Check if category is empty or null. If "true" -> throw exception.
+        if (category == null || category.isBlank()){
+            throw new IllegalArgumentException("category cannot be null");
         }
 
         this.municipalityCode = municipalityCode.trim();
-        this.municipality = municipality.trim();
         this.category = category.trim();
+        this.comment = comment;
     }
 
 
@@ -81,6 +89,11 @@ public class PostalNumber extends Postal implements Municipality{
     }
 
     @Override
+    public String getMunicipality() {
+        return super.getMunicipality();
+    }
+
+    @Override
     public void setPostalCode(String postalCode) {
         super.setPostalCode(postalCode);
     }
@@ -92,15 +105,19 @@ public class PostalNumber extends Postal implements Municipality{
 
     @Override
     public void setMunicipality(String municipality) {
-        this.municipality = municipality;
+        super.setMunicipality(municipality);
     }
 
     /**
-     * Returns the municipality.
+     * Returns the comment.
      *
-     * @return the municipality
+     * @return the comment
      */
-    public String getMunicipality() {
-        return municipality;
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

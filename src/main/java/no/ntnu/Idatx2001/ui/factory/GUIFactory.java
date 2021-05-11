@@ -1,5 +1,6 @@
 package no.ntnu.Idatx2001.ui.factory;
 
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -36,20 +37,20 @@ public class GUIFactory {
         MenuItem openFile = new MenuItem("Import File");
         openFile.setOnAction(ActionEvent -> controller.doShowImportCSVDialog(postalNumberRegister, mainWindow));
 
-        MenuItem exportFile = new MenuItem("Export File");
-        //TODO
-
         MenuItem exitApp = new MenuItem("Exit");
         exitApp.setOnAction(ActionEvent -> controller.doExitApp());
 
-        menuFile.getItems().addAll(openFile, exportFile);
-        menuFile.getItems().addAll(new SeparatorMenuItem());
+        menuFile.getItems().add(openFile);
+        menuFile.getItems().add(new SeparatorMenuItem());
         menuFile.getItems().add(exitApp);
 
         Menu menuEdit = new Menu("Edit");
 
         MenuItem seePN = new MenuItem("See selected Item");
-
+        seePN.setOnAction(ActionEvent -> {
+            PostalNumber selectedPostal = (PostalNumber) tableView.getSelectionModel().getSelectedItem();
+            controller.doShowInfo(selectedPostal);
+        });
 
         menuEdit.getItems().addAll(seePN);
 
@@ -80,11 +81,16 @@ public class GUIFactory {
                 (controller.filterList(postalNumberRegister.getPostalNumbers(),newValue)));
 
         Button infoButton = new Button();
-        //infoButton.setMinWidth();
+        infoButton.setMinWidth(35);
         ImageView infoImgView = new ImageView(new Image(getClass().getResource("/pictures/info.png").toExternalForm()));
         infoButton.setGraphic(infoImgView);
         infoImgView.setFitHeight(25);
         infoImgView.setFitWidth(25);
+
+        infoButton.setOnAction(ActionEvent -> {
+            PostalNumber selectedPostal = (PostalNumber) tableView.getSelectionModel().getSelectedItem();
+            controller.doShowInfo(selectedPostal);
+        });
 
         ImageView searchImageView = new ImageView();
         Image searchImage = new Image(getClass().getResource("/pictures/search.png").toExternalForm());

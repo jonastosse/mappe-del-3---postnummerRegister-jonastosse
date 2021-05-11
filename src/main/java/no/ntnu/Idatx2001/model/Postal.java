@@ -8,6 +8,8 @@ public abstract class Postal {
 private String postalCode;
     //Eks. Eide
 private String postalPlace;
+    //Eks. Hustadvika
+private String municipality;
 
     /**
      * Creates an instance of Postal
@@ -15,12 +17,21 @@ private String postalPlace;
      * @param postalCode the the postalCode of the postal
      * @param postalPlace the postalPlace of the postal
      */
-    public Postal(String postalCode, String postalPlace){
+    public Postal(String postalCode, String postalPlace, String municipality){
 
-    if(postalCode == null || postalCode.isBlank() || postalPlace == null || postalPlace.isBlank()){
-        throw new IllegalArgumentException("postalCode and postalPlace cannot be empty or null");
+        //Check if postalCode is empty or null. If "true" -> throw exception.
+    if(postalCode == null || postalCode.isBlank()) {
+        throw new IllegalArgumentException("postalCode cannot be empty or null");
     }
-
+        //Check if postalPlace is empty or null. If "true" -> throw exception.
+    if(postalPlace == null || postalPlace.isBlank()){
+        throw new IllegalArgumentException("postalPlace cannot be empty or null");
+    }
+        //Check if municipality is empty or null. If "true" -> throw exception.
+    if (municipality == null || municipality.isBlank()) {
+        throw new IllegalArgumentException("municipality cannot be empty or null");
+    }
+    this.municipality = municipality.trim();
     this.postalCode = postalCode.trim();
     this.postalPlace = postalPlace.trim();
     }
@@ -54,11 +65,29 @@ private String postalPlace;
 
     /**
      * Returns the postalPlace.
-     * 
+     *
      * @return the postalPlace
      */
     public String getPostalPlace() {
         return postalPlace;
+    }
+
+    /**
+     * Sets the municipality.
+     *
+     * @param municipality the municipality to be set
+     */
+    public void setMunicipality(String municipality) {
+        this.municipality = municipality;
+    }
+
+    /**
+     * Returns the municipality.
+     *
+     * @return the municipality
+     */
+    public String getMunicipality() {
+        return municipality;
     }
 
     @Override
