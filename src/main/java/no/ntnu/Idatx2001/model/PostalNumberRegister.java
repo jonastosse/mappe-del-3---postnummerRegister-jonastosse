@@ -23,6 +23,7 @@ public class PostalNumberRegister {
         postalNumbers.add(new PostalNumber("6008", "Vika", "Ålesund", "1234", "G"));
         postalNumbers.add(new PostalNumber("6491", "Oblevai", "Oslo", "3021", "G"));
         postalNumbers.add(new PostalNumber("6494", "Kjørsvika", "Bergen", "2615", "H"));
+
     }
 
     /**

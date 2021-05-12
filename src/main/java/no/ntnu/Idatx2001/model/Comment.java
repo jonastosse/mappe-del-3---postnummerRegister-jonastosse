@@ -9,6 +9,7 @@ public interface Comment {
      * Sets a comment to a any object.
      *
      * @param comment the comment to be set
+     * @return
      */
     void setComment(String comment);
 }

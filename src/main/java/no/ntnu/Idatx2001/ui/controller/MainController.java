@@ -216,7 +216,7 @@ public class MainController {
             additionalComment.setWrapText(true);
 
 
-            postalNumber.setComment(additionalComment.getText());
+
 
 
             grid.add(new Label("Postal Code:"), 0, 0);
@@ -240,5 +240,7 @@ public class MainController {
 
             postalNumberDialog.getDialogPane().setContent(grid);
             postalNumberDialog.showAndWait();
+
+            postalNumber.setComment(additionalComment.getText());
     }
 }

@@ -85,6 +85,7 @@ public class PostalNumber extends Postal implements Comment{
     public String getComment() {
         return comment;
     }
+
     @Override
     public void setComment(String comment) {
         this.comment = comment;
