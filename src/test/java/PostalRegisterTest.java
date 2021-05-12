@@ -1,14 +1,14 @@
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import no.ntnu.Idatx2001.model.PostalNumber;
-import no.ntnu.Idatx2001.model.PostalNumberRegister;
+import no.ntnu.idatx2001.model.PostalNumber;
+import no.ntnu.idatx2001.model.PostalRegister;
 import org.junit.jupiter.api.Test;
 
-class PostalNumberRegisterTest {
+class PostalRegisterTest {
     String SuccessfulResult = "PostalNumber added";
     String UnSuccessfulResult = "PostalNumber not added";
-    PostalNumberRegister tester;
+    PostalRegister tester;
 
     @Test
     void testRemoveFromDepartment(){

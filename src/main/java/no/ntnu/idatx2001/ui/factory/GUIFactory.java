@@ -1,6 +1,5 @@
-package no.ntnu.Idatx2001.ui.factory;
+package no.ntnu.idatx2001.ui.factory;
 
-import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -8,34 +7,37 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import no.ntnu.Idatx2001.model.PostalNumber;
-import no.ntnu.Idatx2001.model.PostalNumberRegister;
-import no.ntnu.Idatx2001.ui.controller.MainController;
-import no.ntnu.Idatx2001.ui.view.MainWindow;
+import javafx.scene.text.Text;
+import no.ntnu.idatx2001.model.PostalNumber;
+import no.ntnu.idatx2001.model.PostalRegister;
+import no.ntnu.idatx2001.ui.controller.MainController;
+import no.ntnu.idatx2001.ui.view.MainWindow;
+import java.util.logging.Logger;
 
 /**
  * The GuiFactory has the responsibility to create Nodes for the MainWindow.
  */
 public class GUIFactory {
+    private Logger logger;
 
     /**
      * Creates an instance of the GuiFactory.
      */
-    public GUIFactory(){}
+    public GUIFactory(){this.logger = Logger.getLogger(getClass().toString());}
 
     /**
      * Creates a menus of type Node, to be sent to MainWindow.
      *
      * @param controller            a link to the MainController
      * @param tableView             the TableView to do operations in
-     * @param postalNumberRegister  the register to add, edit and remove
+     * @param postalRegister  the register to add, edit and remove
      * @param mainWindow            a link to the MainWindow
      * @return                      the toolbar as a Node
      */
-    public Node createMenus(MainController controller, TableView tableView, PostalNumberRegister postalNumberRegister, MainWindow mainWindow){
+    public Node createMenus(MainController controller, TableView tableView, PostalRegister postalRegister, MainWindow mainWindow){
         Menu menuFile = new Menu("File");
         MenuItem openFile = new MenuItem("Import File");
-        openFile.setOnAction(ActionEvent -> controller.doShowImportCSVDialog(postalNumberRegister, mainWindow));
+        openFile.setOnAction(ActionEvent -> controller.doShowImportCSVDialog(postalRegister, mainWindow));
 
         MenuItem exitApp = new MenuItem("Exit");
         exitApp.setOnAction(ActionEvent -> controller.doExitApp());
@@ -56,6 +58,7 @@ public class GUIFactory {
 
         Menu menuHelp = new Menu("Help");
         MenuItem about = new MenuItem("About");
+        MenuItem search = new MenuItem("search info");
         about.setOnAction(event -> controller.doShowAbout());
         menuHelp.getItems().add(about);
 
@@ -69,16 +72,16 @@ public class GUIFactory {
      *
      * @param controller            a link to the MainController
      * @param tableView             the TableView to do operations in
-     * @param postalNumberRegister  the register to add, edit and remove
+     * @param postalRegister  the register to add, edit and remove
      * @param mainWindow            a link to the MainWindow
      * @return                      the toolbar as a Node
      */
-    public Node createToolBar(MainController controller, TableView tableView, PostalNumberRegister postalNumberRegister, MainWindow mainWindow){
+    public Node createToolBar(MainController controller, TableView tableView, PostalRegister postalRegister, MainWindow mainWindow){
 
         TextField searchText = new TextField();
-        searchText.setPromptText("Search for postal code or postal place");
+        searchText.setPromptText("Search");
         searchText.textProperty().addListener((observable, oldValue, newValue) -> tableView.setItems
-                (controller.filterList(postalNumberRegister.getPostalNumbers(),newValue)));
+                (controller.filterList(postalRegister.getPostalNumbers(),newValue)));
 
         Button infoButton = new Button();
         infoButton.setMinWidth(35);
@@ -152,9 +155,15 @@ public class GUIFactory {
      * @return the statusBar as a Node
      */
     public Node createStatusBar(){
+        HBox statusBar = new HBox();
+        statusBar.setStyle("-fx-background-color: '#1';");
+        statusBar.getChildren().add(new Text("Status: OK"));
+        return statusBar;
+    }
+    public Node newStatusBar(){
         HBox statusbar = new HBox();
         statusbar.setStyle("-fx-background-color: '#1';");
-        //if()
+        statusbar.getChildren().add(new Text("Status: import successful"));
         return statusbar;
     }
 

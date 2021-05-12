@@ -1,4 +1,4 @@
-package no.ntnu.Idatx2001.model;
+package no.ntnu.idatx2001.model;
 
 /**
  * A interface to be used in any class who needs a comment.

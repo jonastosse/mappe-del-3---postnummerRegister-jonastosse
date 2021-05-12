@@ -1,17 +1,17 @@
-package no.ntnu.Idatx2001.ui.controller;
+package no.ntnu.idatx2001.ui.controller;
 
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
-import no.ntnu.Idatx2001.model.PostalNumber;
-import no.ntnu.Idatx2001.model.PostalNumberRegister;
-import no.ntnu.Idatx2001.ui.view.MainWindow;
+import no.ntnu.idatx2001.model.PostalNumber;
+import no.ntnu.idatx2001.model.PostalRegister;
+import no.ntnu.idatx2001.model.RemoveException;
+import no.ntnu.idatx2001.ui.view.MainWindow;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -76,7 +76,7 @@ public class MainController {
      * and municipality.
      */
     private boolean searchFindsOrder(PostalNumber postalNumber, String search) {
-        return (postalNumber.getPostalCode().toLowerCase().contains(search.toLowerCase())) ||
+        return (postalNumber.getPostalCode().contains(search)) ||
                 (postalNumber.getPostalPlace().toLowerCase().contains(search.toLowerCase())) ||
                 (postalNumber.getMunicipality().toLowerCase().contains(search.toLowerCase()));
     }
@@ -100,8 +100,14 @@ public class MainController {
     //  DIALOGS
     //------------------------------------
 
-    public void showErrorMessage(){
+    public void showCSVFailure(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Unsuccessful");
+        alert.setHeaderText("Unsuccessful import");
+        alert.setContentText("The File import failed because of a error in the file you imported.\n " + "\n"
+                + "Please check for a empty field in your file");
 
+        alert.showAndWait();
     }
 
     /**
@@ -109,11 +115,11 @@ public class MainController {
      * and add them to the postalNumberRegister. Returns <code>True</code> if the
      * process is successful, and <code>False</code> if it fails.
      *
-     * @param postalNumberRegister
+     * @param postalRegister
      * @param parent
      * @return
      */
-    public boolean doShowImportCSVDialog(PostalNumberRegister postalNumberRegister, MainWindow parent) {
+    public boolean doShowImportCSVDialog(PostalRegister postalRegister, MainWindow parent) {
         boolean importCheck = false;
 
         FileChooser fileChooser = new FileChooser();
@@ -127,13 +133,17 @@ public class MainController {
             String row = "";
             while ((row = reader.readLine()) != null) {
                 String[] data = row.split("\t");
-                postalNumberRegister.setPostalNumbers(new PostalNumber(data[0], data[1], data[3], data[2], data[4]));
+                postalRegister.setPostalNumbers(new PostalNumber(data[0], data[1], data[3], data[2], data[4]));
                 parent.updateObservableList();
                 importCheck = true;
+
             }
         } catch (IOException e) {
             this.logger.log(Level.WARNING, e.getMessage());
-
+            showCSVFailure();
+        } catch (ArrayIndexOutOfBoundsException i){
+            this.logger.log(Level.WARNING, i.getMessage());
+            showCSVFailure();
         }
         return importCheck;
     }
@@ -179,6 +189,10 @@ public class MainController {
         Dialog<PostalNumber> postalNumberDialog = new Dialog<>();
 
             postalNumberDialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+            ButtonType deleteButton = new ButtonType("DELETE");
+            postalNumberDialog.getDialogPane().getButtonTypes().add(deleteButton);
+
+
             GridPane grid = new GridPane();
             grid.setHgap(10);
             grid.setVgap(10);

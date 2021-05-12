@@ -1,4 +1,4 @@
-package no.ntnu.Idatx2001.ui.view;
+package no.ntnu.idatx2001.ui.view;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -8,26 +8,28 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import no.ntnu.Idatx2001.model.PostalNumber;
-import no.ntnu.Idatx2001.model.PostalNumberRegister;
-import no.ntnu.Idatx2001.ui.controller.MainController;
-import no.ntnu.Idatx2001.ui.factory.GUIFactory;
+import no.ntnu.idatx2001.model.PostalNumber;
+import no.ntnu.idatx2001.model.PostalRegister;
+import no.ntnu.idatx2001.model.RemoveException;
+import no.ntnu.idatx2001.ui.controller.MainController;
+import no.ntnu.idatx2001.ui.factory.GUIFactory;
 
 /**
  * The mainWindow of the application.
  */
 public class MainWindow extends Application {
     private MainController mainController;
-    private PostalNumberRegister pNRegister;
+    private PostalRegister pNRegister;
     private ObservableList<PostalNumber> postalObservableList;
     private TableView<PostalNumber> tableView;
+    private PostalRegister postalRegister;
 
     @Override
     public void init(){
         this.mainController = new MainController();
-        this.pNRegister = new PostalNumberRegister();
+        this.pNRegister = new PostalRegister();
         this.tableView = new TableView<>();
-        pNRegister.fillRegisterWithDummies();
+        fillAndRemoveRegisterWithDummies();
     }
 
     /**
@@ -50,7 +52,7 @@ public class MainWindow extends Application {
 
         root.setTop(topContainer);
         root.setCenter(guiFactory.createCentreContent(this.mainController, this.tableView, this));
-        //root.setBottom();
+        root.setBottom(guiFactory.createStatusBar());
 
         Scene scene = new Scene(root, 700, 700);
         primaryStage.setMinWidth(700);
@@ -60,6 +62,7 @@ public class MainWindow extends Application {
         primaryStage.show();
 
         primaryStage.setOnCloseRequest(windowEvent -> mainController.doExitApp());
+
     }
 
     /**
@@ -78,5 +81,31 @@ public class MainWindow extends Application {
      */
     public void updateObservableList(){
         this.postalObservableList.setAll(this.pNRegister.getPostalNumbers());
+    }
+
+    /**
+     * Fills register with dummies.
+     */
+    public void fillAndRemoveRegisterWithDummies(){
+        try {
+            PostalNumber person1 = new PostalNumber("6490", "Eide", "Hustadvika", "2819", "G");
+            PostalNumber person2 = new PostalNumber("6463", "Tunevik", "Molde", "2125", "G");
+            PostalNumber person3 = new PostalNumber("6008", "Vika", "Ålesund", "1234", "G");
+            PostalNumber person4 = new PostalNumber("6491", "Oblevai", "Oslo", "3021", "G");
+            PostalNumber person5 = new PostalNumber("6494", "Kjørsvika", "Bergen", "2615", "H");
+            this.pNRegister.setPostalNumbers(person1);
+            this.pNRegister.setPostalNumbers(person2);
+            this.pNRegister.setPostalNumbers(person3);
+            this.pNRegister.setPostalNumbers(person4);
+            this.pNRegister.setPostalNumbers(person5);
+            this.pNRegister.removePostal(person3);
+            this.pNRegister.removePostal(person4);
+            this.pNRegister.removePostal(person5);
+
+        } catch (IllegalArgumentException i){
+            System.out.println("MEGA UFF");
+        } catch(RemoveException e){
+            System.out.println("UFF");
+        }
     }
 }

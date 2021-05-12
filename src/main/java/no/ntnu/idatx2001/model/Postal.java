@@ -1,4 +1,4 @@
-package no.ntnu.Idatx2001.model;
+package no.ntnu.idatx2001.model;
 
 /**
  * A class that holds all the values for a postal place.

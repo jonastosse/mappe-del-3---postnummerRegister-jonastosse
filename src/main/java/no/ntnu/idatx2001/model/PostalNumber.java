@@ -1,4 +1,4 @@
-package no.ntnu.Idatx2001.model;
+package no.ntnu.idatx2001.model;
 
 /**
  * PostalNumber is a class containing all the information about a postalPlace or a postalNumber.
@@ -89,5 +89,14 @@ public class PostalNumber extends Postal implements Comment{
     @Override
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    @Override
+    public String toString() {
+        return "PostalNumber{" +
+                "municipalityCode='" + municipalityCode + '\'' +
+                ", comment='" + comment + '\'' +
+                ", category='" + category + '\'' +
+                '}';
     }
 }
