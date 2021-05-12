@@ -19,15 +19,15 @@ private String municipality;
      */
     public Postal(String postalCode, String postalPlace, String municipality){
 
-        //Check if postalCode is empty or null. If "true" -> throw exception.
+        //Check if postalCode is empty or null. If "empty/null" -> throw exception.
     if(postalCode == null || postalCode.isBlank()) {
         throw new IllegalArgumentException("postalCode cannot be empty or null");
     }
-        //Check if postalPlace is empty or null. If "true" -> throw exception.
+        //Check if postalPlace is empty or null. If "empty/null" -> throw exception.
     if(postalPlace == null || postalPlace.isBlank()){
         throw new IllegalArgumentException("postalPlace cannot be empty or null");
     }
-        //Check if municipality is empty or null. If "true" -> throw exception.
+        //Check if municipality is empty or null. If "empty/null" -> throw exception.
     if (municipality == null || municipality.isBlank()) {
         throw new IllegalArgumentException("municipality cannot be empty or null");
     }

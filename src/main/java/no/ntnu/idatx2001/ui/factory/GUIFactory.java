@@ -12,18 +12,20 @@ import no.ntnu.idatx2001.model.PostalNumber;
 import no.ntnu.idatx2001.model.PostalRegister;
 import no.ntnu.idatx2001.ui.controller.MainController;
 import no.ntnu.idatx2001.ui.view.MainWindow;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 /**
  * The GuiFactory has the responsibility to create Nodes for the MainWindow.
  */
 public class GUIFactory {
-    private Logger logger;
 
     /**
      * Creates an instance of the GuiFactory.
      */
-    public GUIFactory(){this.logger = Logger.getLogger(getClass().toString());}
+    public GUIFactory(){
+        Logger.getLogger(getClass().toString());
+    }
 
     /**
      * Creates a menus of type Node, to be sent to MainWindow.
@@ -34,35 +36,38 @@ public class GUIFactory {
      * @param mainWindow            a link to the MainWindow
      * @return                      the toolbar as a Node
      */
-    public Node createMenus(MainController controller, TableView tableView, PostalRegister postalRegister, MainWindow mainWindow){
-        Menu menuFile = new Menu("File");
-        MenuItem openFile = new MenuItem("Import File");
-        openFile.setOnAction(ActionEvent -> controller.doShowImportCSVDialog(postalRegister, mainWindow));
+    public Node createMenus(MainController controller, TableView<PostalNumber> tableView, PostalRegister postalRegister, MainWindow mainWindow){
+        var menuFile = new Menu("File");
+        var openFile = new MenuItem("Import File");
+        openFile.setOnAction(actionEvent -> controller.doShowImportCSVDialog(postalRegister, mainWindow));
 
-        MenuItem exitApp = new MenuItem("Exit");
-        exitApp.setOnAction(ActionEvent -> controller.doExitApp());
+        var exitApp = new MenuItem("Exit");
+        exitApp.setOnAction(actionEvent -> controller.doExitApp());
 
         menuFile.getItems().add(openFile);
         menuFile.getItems().add(new SeparatorMenuItem());
         menuFile.getItems().add(exitApp);
 
-        Menu menuEdit = new Menu("Edit");
+        var menuEdit = new Menu("Edit");
 
-        MenuItem seePN = new MenuItem("See selected Item");
-        seePN.setOnAction(ActionEvent -> {
-            PostalNumber selectedPostal = (PostalNumber) tableView.getSelectionModel().getSelectedItem();
+        var seePN = new MenuItem("See selected Item");
+        seePN.setOnAction(actionEvent -> {
+            PostalNumber selectedPostal = tableView.getSelectionModel().getSelectedItem();
             controller.doShowInfo(selectedPostal);
         });
 
         menuEdit.getItems().addAll(seePN);
 
-        Menu menuHelp = new Menu("Help");
-        MenuItem about = new MenuItem("About");
-        MenuItem search = new MenuItem("search info");
-        about.setOnAction(event -> controller.doShowAbout());
-        menuHelp.getItems().add(about);
+        var menuHelp = new Menu("Help");
 
-        MenuBar menuBar = new MenuBar();
+        var about = new MenuItem("About");
+        about.setOnAction(event -> controller.doShowAbout());
+
+        var search = new MenuItem("search info");
+        about.setOnAction(event -> controller.doShowSearchInfo());
+
+        menuHelp.getItems().addAll(about,search);
+        var menuBar = new MenuBar();
         menuBar.getMenus().addAll(menuFile, menuEdit, menuHelp);
         return menuBar;
     }
@@ -73,35 +78,34 @@ public class GUIFactory {
      * @param controller            a link to the MainController
      * @param tableView             the TableView to do operations in
      * @param postalRegister  the register to add, edit and remove
-     * @param mainWindow            a link to the MainWindow
      * @return                      the toolbar as a Node
      */
-    public Node createToolBar(MainController controller, TableView tableView, PostalRegister postalRegister, MainWindow mainWindow){
+    public Node createToolBar(MainController controller, TableView<PostalNumber> tableView, PostalRegister postalRegister){
 
-        TextField searchText = new TextField();
+        var searchText = new TextField();
         searchText.setPromptText("Search");
         searchText.textProperty().addListener((observable, oldValue, newValue) -> tableView.setItems
                 (controller.filterList(postalRegister.getPostalNumbers(),newValue)));
 
-        Button infoButton = new Button();
+        var infoButton = new Button();
         infoButton.setMinWidth(35);
-        ImageView infoImgView = new ImageView(new Image(getClass().getResource("/pictures/info.png").toExternalForm()));
+        var infoImgView = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/pictures/info.png")).toExternalForm()));
         infoButton.setGraphic(infoImgView);
         infoImgView.setFitHeight(25);
         infoImgView.setFitWidth(25);
 
-        infoButton.setOnAction(ActionEvent -> {
-            PostalNumber selectedPostal = (PostalNumber) tableView.getSelectionModel().getSelectedItem();
+        infoButton.setOnAction(actionEvent -> {
+            PostalNumber selectedPostal = tableView.getSelectionModel().getSelectedItem();
             controller.doShowInfo(selectedPostal);
         });
 
-        ImageView searchImageView = new ImageView();
-        Image searchImage = new Image(getClass().getResource("/pictures/search.png").toExternalForm());
+        var searchImageView = new ImageView();
+        var searchImage = new Image(Objects.requireNonNull(getClass().getResource("/pictures/search.png")).toExternalForm());
         searchImageView.setImage(searchImage);
         searchImageView.setFitWidth(25);
         searchImageView.setFitHeight(25);
 
-        BorderPane toolBar = new BorderPane();
+        var toolBar = new BorderPane();
         toolBar.setLeft(infoButton);
         toolBar.setRight(new HBox(searchText,searchImageView));
         return toolBar;
@@ -110,12 +114,11 @@ public class GUIFactory {
     /**
      * Creates centreContent of type Node, to be sent to MainWindow.
      *
-     * @param controller    a link to the MainController
      * @param tableView     the TableView to do operations in
      * @param mainWindow    a link to the MainWindow
      * @return              the scrollPane as a Node
      */
-    public Node createCentreContent(MainController controller, TableView tableView, MainWindow mainWindow){
+    public Node createCentreContent(TableView<PostalNumber> tableView, MainWindow mainWindow){
         TableColumn<PostalNumber, String> postalCodeColumn = new TableColumn<>("Postal code");
         postalCodeColumn.setMinWidth(100);
         postalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
@@ -141,7 +144,7 @@ public class GUIFactory {
         tableView.getColumns().addAll(postalCodeColumn, postalPlaceColumn, municipalityColumn, municipalityCodeColumn, categoryColumn);
 
 
-        ScrollPane scrollPane = new ScrollPane();
+        var scrollPane = new ScrollPane();
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
         scrollPane.setContent(tableView);
@@ -155,17 +158,10 @@ public class GUIFactory {
      * @return the statusBar as a Node
      */
     public Node createStatusBar(){
-        HBox statusBar = new HBox();
+        var statusBar = new HBox();
         statusBar.setStyle("-fx-background-color: '#1';");
         statusBar.getChildren().add(new Text("Status: OK"));
         return statusBar;
     }
-    public Node newStatusBar(){
-        HBox statusbar = new HBox();
-        statusbar.setStyle("-fx-background-color: '#1';");
-        statusbar.getChildren().add(new Text("Status: import successful"));
-        return statusbar;
-    }
-
 }
 

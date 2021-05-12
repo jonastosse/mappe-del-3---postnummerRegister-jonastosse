@@ -26,20 +26,18 @@ public class PostalNumber extends Postal implements Comment{
 
         super(postalCode, postalPlace, municipality);
 
-            //Check if municipalityCode is empty or null. If "true" -> throw exception.
+            //Check if municipalityCode is empty or null. If "empty/null" -> throw exception.
         if (municipalityCode == null || municipalityCode.isBlank()){
             throw new IllegalArgumentException("municipalityCode cannot be null");
         }
-            //Check if category is empty or null. If "true" -> throw exception.
+            //Check if category is empty or null. If "empty/null" -> throw exception.
         if (category == null || category.isBlank()){
             throw new IllegalArgumentException("category cannot be null");
         }
 
         this.municipalityCode = municipalityCode.trim();
         this.category = category.trim();
-        this.comment = comment;
     }
-
 
     /**
      * Sets the municipalityCode.

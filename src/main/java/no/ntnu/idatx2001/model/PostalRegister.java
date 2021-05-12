@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostalRegister {
-    private ArrayList<PostalNumber> postalNumbers;
-    private PostalNumber postalNumber;
+    private final ArrayList<PostalNumber> postalNumbers;
 
     /**
      * The postalNumberRegister represent a collection of Postal.
@@ -54,7 +53,6 @@ public class PostalRegister {
     public String toString() {
         return "PostalNumberRegister{" +
                 "postalNumbers=" + postalNumbers +
-                ", postalNumber=" + postalNumber +
                 '}';
     }
 }
