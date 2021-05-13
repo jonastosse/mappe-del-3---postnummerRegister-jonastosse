@@ -33,6 +33,7 @@ public class MainWindow extends Application {
         this.pNRegister = new PostalRegister();
         this.tableView = new TableView<>();
         fillAndRemoveRegisterWithDummies();
+
     }
 
     /**
@@ -66,7 +67,7 @@ public class MainWindow extends Application {
         primaryStage.show();
 
         primaryStage.setOnCloseRequest(windowEvent -> mainController.doExitApp());
-
+        mainController.importCSV(pNRegister,this);
     }
 
     /**

@@ -213,9 +213,6 @@ public class MainController {
             this.logger.log(Level.WARNING, "The index is either negative or greater than or equal to the size of the array");
             showCSVFailure();
 
-        } catch (IllegalArgumentException u){
-            this.logger.log(Level.WARNING, "IllegalArgumentException because of a empty string");
-            showCSVFailure();
         }
     }
 
