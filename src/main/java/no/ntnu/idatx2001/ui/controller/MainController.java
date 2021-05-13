@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 /**
  * The main controller for the application. It handles the actions to be performed in the GUI.
+ * @author Jonas
  */
 public class MainController {
 
@@ -89,13 +90,13 @@ public class MainController {
      * @param postalNumber   The postalNumber to remove
      * @param parent         The MainWindow to update
      */
-    public void doShowDeletePostal(PostalRegister postalRegister, PostalNumber postalNumber, MainWindow parent){
+    private void doShowDeletePostal(PostalRegister postalRegister, PostalNumber postalNumber, MainWindow parent){
         if(showDeleteConfirmationDialog()){
             try {
                 postalRegister.removePostal(postalNumber);
                 parent.updateObservableList();
             } catch (RemoveException e){
-                this.logger.log(Level.WARNING,"Could not remove postalNumber, because it doesn't exist");
+                this.logger.log(Level.WARNING ,"Could not remove postalNumber, because it doesn't exist");
                 showRemoveFailure();
             }
         }
@@ -105,9 +106,9 @@ public class MainController {
      * A method to decide if the user have selected a postal, then delete that postal.
      * If the user have not selected postal, show selectItemDialog.
      *
-     * @param postalRegister
-     * @param postalNumber
-     * @param parent
+     * @param postalRegister the postalRegister to delete from
+     * @param postalNumber   the postalNumber to delete
+     * @param parent         the mainWindow to update
      */
     public void doShowDelete(PostalRegister postalRegister, PostalNumber postalNumber, MainWindow parent){
         if (postalNumber == null){
@@ -142,8 +143,8 @@ public class MainController {
      *
      * @return <code>true</code> if the user confirms the delete
      */
-    public boolean showDeleteConfirmationDialog() {
-        boolean deleteConfirmed = false;
+    private boolean showDeleteConfirmationDialog() {
+        var deleteConfirmed = false;
 
         var alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
@@ -161,7 +162,7 @@ public class MainController {
     /**
      * An alert to show if CSV fails to import.
      */
-    public void showCSVFailure(){
+    private void showCSVFailure(){
         var alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Unsuccessful");
         alert.setHeaderText("Unsuccessful import");
@@ -174,7 +175,7 @@ public class MainController {
     /**
      * An alert to show error when a removal is unsuccessful.
      */
-    public void showRemoveFailure(){
+    private void showRemoveFailure(){
         var alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Unsuccessful");
         alert.setHeaderText("Unsuccessful remove");
@@ -248,7 +249,7 @@ public class MainController {
      * A warning dialog that shows that the user must select an
      * item from the table.
      */
-    public void doShowSelectItemDialog() {
+    private void doShowSelectItemDialog() {
         var alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Info");
         alert.setHeaderText("Postal Numbers");
@@ -264,7 +265,7 @@ public class MainController {
      *
      * @param postalNumber the postalNumber to be shown
      */
-    public void postalNumberDialog(PostalNumber postalNumber) {
+    private void postalNumberDialog(PostalNumber postalNumber) {
         var postalNumberDialog = new Dialog<>();
 
             postalNumberDialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);

@@ -13,10 +13,21 @@ class PostalRegisterTest {
     String SuccessfulResultRemove = "PostalNumber removed";
     String UnSuccessfulResultRemove = "PostalNumber not removed";
 
+    /**
+     * A test hoping for positive result.
+     * Tests the adding of a postalNumber:
+     *
+     * Adds the postalNumber.
+     *
+     * If unsuccessful adding: "Could not add PostalNumber"
+     *
+     * If successful adding: "PostalNumber added"
+     * <code>SuccessfulResultAdd</code>
+     */
     @Test
     void testAddPostalNumberToRegister(){
         try {
-            new PostalNumber("6291", "Ugai", "Ålesund", "2283", "H");
+            new PostalNumber("6291", "Kjørsvika", "Ålesund", "2283", "H");
             System.out.println("Positive test:");
             System.out.println(SuccessfulResultAdd);
         } catch (IllegalArgumentException e){
@@ -25,10 +36,21 @@ class PostalRegisterTest {
         assertEquals("PostalNumber added", SuccessfulResultAdd);
     }
 
+    /**
+     * A test hoping for negative result.
+     * Tests the adding of a postalNumber with a empty string:
+     *
+     * Adds the postalNumber.
+     *
+     * If successful adding: "PostalNumber added"
+     *
+     * If unsuccessful adding: "PostalNumber not added"
+     * <code>UnSuccessfulResultAdd</code>
+     */
     @Test
      void testAddEmptyCategoryPostalNumberToRegister(){
         try {
-            new PostalNumber("6291", "Ugai", "Ålesund", "2283", "");
+            new PostalNumber("6291", "Kjørsvika", "Ålesund", "2283", "");
             System.out.println("PostalNumber added");
         } catch (IllegalArgumentException e){
             System.out.println("Negative test:");
@@ -37,9 +59,22 @@ class PostalRegisterTest {
         assertEquals("PostalNumber not added", UnSuccessfulResultAdd);
     }
 
+    /**
+     * A test hoping for positive result.
+     * Tests the removal of a postalNumber in the register:
+     *
+     * Adds a postalNumber then creates a register.
+     * Adds the postalNumber to the register.
+     * Removes the postalNumber with the registers removal method.
+     *
+     * If unsuccessful removal: "Could not remove postalNumber"
+     *
+     * If successful removal: "PostalNumber removed"
+     * <code>SuccessfulResultRemove</code>
+     */
     @Test
     void testRemovePostalFromRegister(){
-        PostalNumber postalNumber = new PostalNumber("6291", "Ugai", "Ålesund", "2283", "G");
+        PostalNumber postalNumber = new PostalNumber("6291", "Kjørsvika", "Ålesund", "2283", "G");
         PostalRegister postalRegister = new PostalRegister();
         postalRegister.setPostalNumbers(postalNumber);
         try {
@@ -51,9 +86,21 @@ class PostalRegisterTest {
         assertEquals("PostalNumber removed", SuccessfulResultRemove);
     }
 
+    /**
+     * A test hoping for negative result.
+     * Tests the removal of a postalNumber not in the register:
+     *
+     * Adds a postalNumber then creates a register.
+     * Removes the postalNumber with the registers removal method.
+     *
+     * If successful removal: "PostalNumber removed"
+     *
+     * If unsuccessful removal: "PostalNumber not removed"
+     * <code>UnSuccessfulResultRemove</code>
+     */
     @Test
     void testRemovePostalNotInRegister(){
-        PostalNumber postalNumber = new PostalNumber("6291", "Ugai", "Ålesund", "2283", "G");
+        PostalNumber postalNumber = new PostalNumber("6291", "Kjørsvika", "Ålesund", "2283", "G");
         PostalRegister postalRegister = new PostalRegister();
         try {
             postalRegister.removePostal(postalNumber);

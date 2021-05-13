@@ -67,7 +67,6 @@ public class MainWindow extends Application {
         primaryStage.show();
 
         primaryStage.setOnCloseRequest(windowEvent -> mainController.doExitApp());
-        mainController.importCSV(pNRegister,this);
     }
 
     /**
