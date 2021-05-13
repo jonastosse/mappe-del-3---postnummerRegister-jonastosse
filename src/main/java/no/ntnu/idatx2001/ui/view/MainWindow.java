@@ -91,8 +91,7 @@ public class MainWindow extends Application {
      * Fills register with dummies, then removes them.
      *
      * I will say myself that having this method in the MainWindow is a bad code design.
-     * This method both adds, removes and catches exceptions for both, this would be better
-     * suited to have in mainController or GUIFactory.
+     * This method both adds, removes and catches exceptions for both.
      *
      * I have this method here, simply because it was more convenient at the time.
      */

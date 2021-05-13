@@ -81,6 +81,14 @@ public class MainController {
         return FXCollections.observableArrayList(filtered);
     }
 
+    /**
+     * Deletes a postal if user pressed OK in showDeleteConfirmationDialog. Then updates ObservableList.
+     * It catches a RemoveException if the PostalNumber cannot be removed.
+     *
+     * @param postalRegister The postalRegister to delete a PostalNumber from
+     * @param postalNumber   The postalNumber to remove
+     * @param parent         The MainWindow to update
+     */
     public void doShowDeletePostal(PostalRegister postalRegister, PostalNumber postalNumber, MainWindow parent){
         if(showDeleteConfirmationDialog()){
             try {
@@ -92,6 +100,38 @@ public class MainController {
             }
         }
     }
+
+    /**
+     * A method to decide if the user have selected a postal, then delete that postal.
+     * If the user have not selected postal, show selectItemDialog.
+     *
+     * @param postalRegister
+     * @param postalNumber
+     * @param parent
+     */
+    public void doShowDelete(PostalRegister postalRegister, PostalNumber postalNumber, MainWindow parent){
+        if (postalNumber == null){
+            doShowSelectItemDialog();
+        } else {
+            doShowDeletePostal(postalRegister, postalNumber, parent);
+        }
+    }
+
+
+    /**
+     * A method to decide if the user have selected a postal, then show info about that postal.
+     * If the user have not selected postal, show selectItemDialog.
+     *
+     * @param postalNumber the postalNumber to be shown info about
+     */
+    public void doShowInfo(PostalNumber postalNumber) {
+        if (postalNumber == null) {
+            doShowSelectItemDialog();
+        } else {
+            postalNumberDialog(postalNumber);
+        }
+    }
+
     //------------------------------------
     //  DIALOGS
     //------------------------------------
@@ -118,8 +158,11 @@ public class MainController {
         return deleteConfirmed;
     }
 
+    /**
+     * An alert to show if CSV fails to import.
+     */
     public void showCSVFailure(){
-        var alert = new Alert(Alert.AlertType.WARNING);
+        var alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Unsuccessful");
         alert.setHeaderText("Unsuccessful import");
         alert.setContentText("The File import failed because of a error in the file you imported.\n " + "\n"
@@ -128,8 +171,11 @@ public class MainController {
         alert.showAndWait();
     }
 
+    /**
+     * An alert to show error when a removal is unsuccessful.
+     */
     public void showRemoveFailure(){
-        var alert = new Alert(Alert.AlertType.WARNING);
+        var alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Unsuccessful");
         alert.setHeaderText("Unsuccessful remove");
         alert.setContentText("Could not remove postal place, because it doesn't exist");
@@ -215,22 +261,16 @@ public class MainController {
         alert.showAndWait();
     }
 
-    public void doShowInfo(PostalNumber postalNumber) {
-        if (postalNumber == null) {
-            doShowSelectItemDialog();
-        } else {
-            postalNumberDialog(postalNumber);
-        }
-    }
-
-
+    /**
+     * A postalNumber dialog to show info about a postalNumber. Fields will be a non editable,
+     * except the comment field. This is a editable field for the actual user alone.
+     *
+     * @param postalNumber the postalNumber to be shown
+     */
     public void postalNumberDialog(PostalNumber postalNumber) {
-        Dialog<PostalNumber> postalNumberDialog = new Dialog<>();
+        var postalNumberDialog = new Dialog<>();
 
             postalNumberDialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-            var deleteButton = new ButtonType("DELETE");
-            postalNumberDialog.getDialogPane().getButtonTypes().add(deleteButton);
-
             var grid = new GridPane();
             grid.setHgap(10);
             grid.setVgap(10);
@@ -287,10 +327,7 @@ public class MainController {
             additionalComment.setMaxSize(300, 200);
 
             postalNumberDialog.getDialogPane().setContent(grid);
-            //postalNumberDialog.showAndWait();
-            postalNumberDialog.showAndWait().filter(response -> response == ButtonType.NO).ifPresent(response -> doShowDeletePostal(postalNumber, ));
-
-
+            postalNumberDialog.showAndWait();
             postalNumber.setComment(additionalComment.getText());
     }
 }

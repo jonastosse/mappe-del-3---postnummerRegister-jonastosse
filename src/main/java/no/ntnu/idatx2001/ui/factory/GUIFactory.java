@@ -56,7 +56,13 @@ public class GUIFactory {
             controller.doShowInfo(selectedPostal);
         });
 
-        menuEdit.getItems().addAll(seePN);
+        var deletePN = new MenuItem("Delete selected");
+        deletePN.setOnAction(actionEvent -> {
+            PostalNumber selectedPostal = tableView.getSelectionModel().getSelectedItem();
+            controller.doShowDelete(postalRegister, selectedPostal, mainWindow);
+        });
+
+        menuEdit.getItems().addAll(seePN, deletePN);
 
         var menuHelp = new Menu("Help");
 
